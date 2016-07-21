@@ -669,6 +669,7 @@ L.Control.Elevation = L.Control.extend({
         }
         if (layer) {
             layer.on("mousemove", this._handleLayerMouseOver.bind(this));
+            layer.on("click", this._handleLayerClick.bind(this));
         }
     },
 
@@ -685,6 +686,24 @@ L.Control.Elevation = L.Control.extend({
             var x = item.xDiagCoord;
             this._showDiagramIndicator(item, x);
         }
+    },
+
+    /*
+     * Handles click events of the data layers on the map.
+     */
+    _handleLayerClick: function(evt) {
+        if ( typeof evt.latlng==='undefined' || evt.latlng === null) {
+            return;
+        }
+        var latlng = evt.latlng;
+
+        // var item = this._findItemForLatLng(latlng);
+        // if (item) {
+        //     var x = item.xDiagCoord;
+        //     this._showDiagramIndicator(item, x);
+        // }
+
+        this._map.fire('trackClick', { latlng: latlng });
     },
 
     _showDiagramIndicator: function(item, xCoordinate) {
